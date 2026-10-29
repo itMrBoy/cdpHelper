@@ -14,19 +14,33 @@ cdpHelper 分发通用浏览器自动化插件及独立的浏览器扩展。插�
 
 ## 安装插件
 
-将本仓库的 `main` 分支作为插件市场，在宿主中选择 `cdphelper`。市场条目指向 `plugins/cdphelper`。本分发仓库不包含源码子模块；由 ModCDP 根目录的 `cdpHelper/` 子模块引用本仓库。
+将 [itMrBoy/cdpHelper](https://github.com/itMrBoy/cdpHelper) 的 `main` 分支作为插件市场，在宿主中安装 `cdphelper@cdphelper-plugins`。市场条目指向 `plugins/cdphelper`。本分发仓库不包含源码子模块；由 ModCDP 根目录的 `cdpHelper/` 子模块引用本仓库。
+
+Codex:
+
+```sh
+codex plugin marketplace add itMrBoy/cdpHelper --ref main
+codex plugin add cdphelper@cdphelper-plugins
+```
+
+Claude Code:
+
+```text
+/plugin marketplace add itMrBoy/cdpHelper
+/plugin install cdphelper@cdphelper-plugins
+```
 
 插件和浏览器扩展需要分别安装。安装插件不会安装、下载、缓存或复制浏览器扩展，插件也不接收扩展安装目录。
 
-当前本地候选为 **0.1.1**，配套扩展 **0.1.1**、桥接协议 **2**，构建自干净的 ModCDP 源码提交 A：`97e6b3dfe1331c68a3b49265e1f80820612b6be9`（`source_dirty: false`）。当前尚未发布：远端市场还没有 `main` 分支或 Release，源码改动也尚未推送。获得另行授权并正式发布后，才能从 GitHub 安装市场或下载 Release。
+插件与扩展须按兼容元数据配套使用。版本 **0.1.1** 对应扩展 **0.1.1** 和桥接协议 **2**。构建来源和兼容扩展下载以已安装插件的 `artifact.json`、对应 Release 说明及发布清单为准。只使用对应 Release 页面实际列出的附件，不根据市场版本推定 Release 已存在。
 
-本地宿主验收使用本仓库作为市场，完整插件不依赖源码检出或初始化子模块，并使用独立的宿主配置目录，无需替换全局插件。宿主安装和运行兼容需要单独验证，不能根据产物摘要认定通过。
+完整插件不依赖源码检出或初始化子模块。维护者也可使用本地市场检出和独立宿主配置目录进行验收。宿主安装和运行兼容需要单独验证，不能根据产物摘要认定通过。
 
 ## 连接浏览器
 
 1. 启动插件，通过 `browser_status` 列出现有浏览器实例。
 2. 通过 `browser_select` 选择现有实例，或申请启动新的隔离雪诺实例，后者须满足下文归属校验。页面操作前，技能会呈现这两种选择。真实雪诺的隔离启动尚未通过验收。
-3. 如果目标浏览器没有兼容扩展，待发布后从 [cdpHelper Releases](https://github.com/itMrBoy/cdpHelper/releases) 下载配套扩展 ZIP。阅读 ZIP 内的安装说明。在**目标浏览器及其 profile** 中打开 `chrome://extensions`，开启开发者模式，加载解压结果内包含 `manifest.json` 的 **`extension/` 子目录**，不要选择 ZIP 根目录。雪诺可能已随 profile 下发扩展，启用兼容的已有副本也可以接入。
+3. 如果目标浏览器没有兼容扩展，从 [cdpHelper Releases](https://github.com/itMrBoy/cdpHelper/releases) 下载配套扩展 ZIP。阅读 ZIP 内的安装说明。在**目标浏览器及其 profile** 中打开 `chrome://extensions`，开启开发者模式，加载解压结果内包含 `manifest.json` 的 **`extension/` 子目录**，不要选择 ZIP 根目录。雪诺可能已随 profile 下发扩展，启用兼容的已有副本也可以接入。
 4. 重新列出实例，将扩展显示的唯一短编号与插件返回的实例对应，选定目标实例后，再绑定需要操作的标签页。
 
 扩展通过本机入口 `ws://127.0.0.1:29393/bridge` 登记运行实例，在扩展选项页可以查看名称、唯一短编号及连接状态。多个已有雪诺 profile 可以同时接入，用户无需为每个 profile 配置不同端口。多个 profile 共用的扩展 ID 不是浏览器实例 ID。每次连接生成新的 UUID `instance_id`，前八位十六进制字符为 `short_id`。断连后旧连接及标签页引用失效，需要重新列出并选择已连接实例。
@@ -41,9 +55,9 @@ Release 下载链接、解压目录和插件安装目录都不是需要交给 MC
 
 ## 下载浏览器扩展
 
-扩展仅通过 [cdpHelper Release](https://github.com/itMrBoy/cdpHelper/releases) 的独立 ZIP 附件分发。本候选计划在 `v0.1.1` tag 下提供 `cdphelper-extension-v0.1.1.zip`。ZIP 包含中英文安装说明，以及存放 `manifest.json`、编译后扩展文件和 `cdphelper-bridge.json` 构建信息的 `extension/` 目录，不包含实例 token 或连接配置。
+扩展仅通过 [cdpHelper Release](https://github.com/itMrBoy/cdpHelper/releases) 的独立 ZIP 附件分发。选择匹配的版本 tag，下载其中的 `cdphelper-extension-v<version>.zip`。ZIP 包含中英文安装说明，以及存放 `manifest.json`、编译后扩展文件和 `cdphelper-bridge.json` 构建信息的 `extension/` 目录，不包含实例 token 或连接配置。
 
-按构建元数据及发布说明选用与插件候选或正式版本兼容的扩展。安装未完成时，插件不会静默下载扩展，也不会切换到其他浏览器。
+按构建元数据及发布说明选用与插件版本兼容的扩展。安装未完成时，插件不会静默下载扩展，也不会切换到其他浏览器。
 
 ## 仓库布局
 
@@ -57,7 +71,7 @@ README.md
 README.zh-CN.md
 ```
 
-市场清单和插件文件对应同一固定候选：市场共 15 个文件，其中插件实际 13 个文件（外部清单记录 12 个文件，加上 `artifact.json` 本身）。gzip 运行包内有 1,930 个文件，包括生产依赖及其许可证。`artifact.json` 记录外部产物摘要及包内文件摘要、权限，启动器核验路径和内容后再准备运行时。Git 树中不包含展开的 `runtime/` 或 `node_modules/` 目录。构建元数据记录来源源码提交，本仓库不通过 gitlink 反向引用 ModCDP。插件不包含浏览器扩展、扩展 ZIP、自动下载扩展的逻辑或旧版源码 checkout runner。Git 属性保留市场及插件产物的原始字节。
+市场清单和插件文件组成同一版本的分发产物：市场共 15 个文件，其中插件实际 13 个文件（外部清单记录 12 个文件，加上 `artifact.json` 本身）。gzip 运行包内有 1,930 个文件，包括生产依赖及其许可证。`artifact.json` 记录外部产物摘要及包内文件摘要、权限，启动器核验路径和内容后再准备运行时。Git 树中不包含展开的 `runtime/` 或 `node_modules/` 目录。构建元数据记录来源源码提交，本仓库不通过 gitlink 反向引用 ModCDP。插件不包含浏览器扩展、扩展 ZIP、自动下载扩展的逻辑或旧版源码 checkout runner。Git 属性保留市场及插件产物的原始字节。
 
 运行时将展开后的文件、日志和隔离 profile 存放在 `~/.cdphelper`。依赖许可证保留在运行包内及本地缓存的依赖目录旁。原 `~/.snow-browser` 数据保留供回退，不自动迁移浏览器实例或清理 profile。
 
@@ -71,26 +85,24 @@ ModCDP 负责全部插件发布输入、实现、插件与扩展的拆分构建�
 
 仓库依赖方向为单向：ModCDP 根目录以 `cdpHelper/` 子模块固定本分发仓库的提交，URL 为 `https://github.com/itMrBoy/cdpHelper.git`。维护者从 ModCDP 获取实现源码，插件用户直接安装本分发仓库。正式对外分发前，源码提交和分发提交都必须能从各自远端获取。
 
-来源提交 A 的另一个干净工作树已在未初始化 cdpHelper 子模块的情况下成功执行 `pnpm build:plugin --release`。开发依赖通过本地 junction 复用，未执行包安装。实际 `pnpm deliver:plugin` 交付也已成功，保留子仓 README 和 Git 元数据，仅更改生成文件。
-
 发布候选按源码提交 A、记录 A 的干净构建、包含该候选的分发提交 B、ModCDP 固定 B 的父仓提交 C 顺序形成。C 中的子模块指针和文档记账不要求把候选的 `source_commit` 从 A 倒写成 C，避免构建来源自引用。
 
-候选先在本地引入、校验并提交，分发更新计划通过候选分支向 `main` 提交 PR。本地准备不包含推送、创建远端 PR、创建 Release 或更改仓库可见性。
+从干净源码构建并校验，交付到已初始化且干净的分发子模块，再通过候选分支和 PR 向本仓库 `main` 提交生成文件及文档。合并后，在 ModCDP 固定实际合并后的分发提交 B。构建和交付本身不会自动发布 Release。
 
-发布自动化已在 ModCDP 实现，当前仅保留于本地，尚未发布；本分发仓库没有独立 workflow。部署并配置后，workflow 只处理 `pull_request_target` 的 `closed` 事件中已合并到 ModCDP `main` 的 PR，先证明源码 A 是源码 `main` 的祖先，且分发 B 已合入分发 `main`。全流水线使用固定 concurrency group 与 `queue: max` 串行执行。`v<version>` tag 锁定父仓 gitlink 引用的 B；CI 从 B 的 `artifact.json` 读取 `source_commit` 得到 A，检出 A 构建独立扩展 ZIP，最终发布清单记录 B 已分发插件的真实摘要和运行时 digest，不提交替代插件。
+发布自动化维护在 ModCDP，本分发仓库没有独立 workflow。部署并配置后，workflow 只处理 `pull_request_target` 的 `closed` 事件中已合并到 ModCDP `main` 的 PR，先证明源码 A 是源码 `main` 的祖先，且分发 B 已合入分发 `main`。全流水线使用固定 concurrency group 与 `queue: max` 串行执行。`v<version>` tag 锁定父仓 gitlink 引用的 B；CI 从 B 的 `artifact.json` 读取 `source_commit` 得到 A，检出 A 构建独立扩展 ZIP，最终发布清单记录 B 已分发插件的真实摘要和运行时 digest，不提交替代插件。
 
 Release 说明自动生成中文，包含版本、来源、插件安装说明及独立扩展安装说明。首次发布汇总初始源码；后续以上一版稳定 Release 清单中的源码提交为基线生成差异说明，选择基线时排除 prerelease。同版本已正式发布时，仅在原发布清单和 tag 仍准确对应原分发 B 后跳过；后续仅更新 README 的分发提交不会使 tag 追平。相同 tag 已被公开 prerelease 占用时拒绝覆盖。新版本先创建 draft，上传扩展 ZIP、`release-manifest.json` 和 `SHA256SUMS` 三个附件，确认完整后再正式发布。
 
-启用前，须先让源码 A 和分发 B 可从各自远端获取并合入各自 `main`，再在 ModCDP 配置 `CDPHELPER_RELEASE_TOKEN` secret。该 token 仅授权 cdpHelper 仓库的 Contents 读写权限。本轮只完成本地准备及使用 stub 的发布命令模拟：远端 CI 未运行、secret 未配置，提交和 tag 未推送，也未创建实际 Release。当前未发布候选尚不可远端安装。
+发布前提：源码 A 和分发 B 必须可从各自远端获取并合入各自 `main`，ModCDP 必须配置 `CDPHELPER_RELEASE_TOKEN` secret。该 token 仅授权 cdpHelper 仓库的 Contents 读写权限。发布是否成功，以 workflow 结果和对应 Release 页面为准；本地准备或使用 stub 的命令模拟不能证明已正式发布。
 
 分发 `main` 从干净初始提交开始，其全部可达历史均不含展开的 `node_modules` 路径。包含这些文件的旧本地历史保留在本地备份引用中，不作为分发 `main` 的祖先。备份引用仅在本地保留；发布时不得推送备份引用，也不要使用 `git push --all` 或 `git push --mirror`。
 
 产物校验与自动化测试不能证明宿主安装或真实雪诺兼容。宿主技能发现和 MCP 启动、浏览器页面操作需分别记录验收结果，并覆盖多个已有 profile 及隔离实例。
 
-最终 CI 发布候选 A 的全部 61 项测试通过，无失败或跳过，覆盖 37 项发布模拟、4 项中文发布说明测试、多 profile Chromium 测试、桥接校验、隔离归属守卫、离线共享后台启动、压缩产物完整性与篡改和路径越界拒绝、活动会话升级保护。本候选还修复了桥接 HTTP 服务在请求头不完整的连接上关闭挂起的问题。引入时已核验干净源码元数据、全部 15 个市场文件、包内每个运行文件的摘要和权限、许可证、运行时摘要及独立扩展 ZIP；启动器检查 `node plugins/cdphelper/launch.mjs --check` 也已通过。既有 Chrome 131 协议 schema 告警未导致测试失败，这不是真实雪诺验收。旧 JS 会话关闭场景失败此前已在未修改的基线复现，不能宣称 JS 全部通过。
+构建来源：干净源码 A `dd5cb1468a986a9442053d07b0376d6f64d1556a`（`source_dirty: false`），产物 SHA-256 为 `5aa3f052cd1205bbbfa05c07b00cb8074bdc6069dd7e01951ba52336b747e1be`。导入的全部 15 个市场文件与交付构建逐字节一致，运行包文件摘要、权限、来源、许可证和独立扩展 ZIP 已核验，`node plugins/cdphelper/launch.mjs --check` 通过。
 
-2026-10-29 对 ModCDP 分发子模块中 `deliver:plugin` 实际产物的最终宿主验收已通过。本独立分发检出导入的全部 15 个生成文件与该受测候选逐字节一致。验收使用全新的独立 `CODEX_HOME`、`CLAUDE_CONFIG_DIR` 和 `USERPROFILE`，未预热运行时，也未修改 MCP 超时。Codex 已启用用户级 `cdphelper:cdphelper` 技能，加载全部 15 个 MCP 工具，无工具错误或宿主 stderr。Claude 显示一个技能、一个 MCP 服务，并在默认 30 秒内 Connected；完整 MCP 健康检查命令耗时 10,704 ms，这不是单独的运行时准备耗时。两份安装缓存各有 13 个文件，产物 SHA-256 均为 `82420e6cc6ce71b60acc6c1719c8bd025aee0681e69cb8902c0c113213f38de0`，不含展开的 `node_modules`、扩展、ZIP、源码检出或旧 runner。Git trace 没有子模块初始化或更新命令。Claude 市场校验通过，仅有安装命令行 advice。全局插件替换不属于本次仓库方向迁移。这些检查不能证明真实雪诺页面操作通过。
+本构建验收：使用配套 Chromium 148 的本地 61 项测试全部通过，零跳过，包含 37 项发布模拟、4 项中文发布说明测试、浏览器登记/重载与归属校验、离线压缩运行时测试。浏览器测试 fixture 在重载已解压扩展前显式开启开发者模式。上述本地结果不代表最终远端 CI 流水线已全部通过。Browserbase 云端实测需要独立凭据，不在本次验收范围内。不同检出行尾设置可能影响产物字节，不承诺构建字节完全可复现。
 
-早期展开运行时候选虽安装成功，但在暂存复制阶段超过 Claude 默认 30 秒 MCP 启动时限，现已由上述压缩运行包候选替代，并通过全新宿主验收。早期文件复制基准不是新 gzip 准备流程的耗时数据。
+2026-10-29 对本构建在 ModCDP 分发子模块中的产物，使用全新的 `CODEX_HOME`、`CLAUDE_CONFIG_DIR` 和 `USERPROFILE` 目录串行完成宿主验收并通过。未预热运行时，也未修改超时。Codex 已启用 `cdphelper:cdphelper`，加载全部 15 个 MCP 工具，无工具错误或宿主 stderr。Claude 显示一个技能和一个 MCP 服务，在默认 30 秒内 Connected；完整健康检查命令耗时 8,228 ms，不是单独物化耗时。两份缓存各 13 个文件，产物 SHA-256 与上文一致，不含扩展、ZIP、展开依赖、源码检出或旧 runner；Git trace 无子模块初始化或更新。Claude 市场校验通过，附安装命令行 advice。此前冷启动失败及复用配置后的重试不计入此结果。这些检查不能证明真实雪诺页面操作通过。
 
-**真实雪诺隔离未通过验收，不保证支持独立隔离启动。** 实测中用户未关闭窗口，但两个启动的 profile 进程仍自行退出或合并，窗口及扩展登记不足以证明归属。两个测试 profile 后续已获用户明确批准并清理，已有浏览器主进程保留。此失败涉及隔离启动，不改变多个已有实例的复用设计；也不能据此认定任一模式的真实雪诺页面操作已通过验收。
+**真实雪诺隔离未通过验收，不保证支持独立隔离启动。** 启动的 profile 进程可能自行退出或合并到已有浏览器进程，窗口及扩展登记不足以证明归属。无法核验隔离时，守卫拒绝操作。设计上仍提供多个已有实例的复用；上述自动化及宿主检查不能证明任一模式的真实雪诺页面操作通过。
