@@ -2,9 +2,11 @@
 
 ## 用户安装入口
 
-唯一插件市场分发入口为 **cdpHelper 仓库的 main 分支**。该仓库根目录提供两端 marketplace，`plugins/cdphelper/` 提供可运行插件，`source/ModCDP` 子模块指向对应源码。ModCDP 源仓库只维护源码、构建和测试，不能把它的源码根目录当作已安装插件。
+唯一插件市场分发入口为 **cdpHelper 仓库的 main 分支**。该仓库根目录提供两端 marketplace，`plugins/cdphelper/` 提供生成的可运行插件。ModCDP 在根目录通过 `cdpHelper/` 子模块引入分发仓库；cdpHelper 不反向引入源码。技能、清单生成逻辑和运行时的唯一编辑位置均在 ModCDP，分发目录中的生成文件不手工修改。不能把 ModCDP 源码根目录当作已安装插件。
 
 用户需准备 **Node ≥22**、已安装的雪诺浏览器，以及加载 MV3 扩展和使用 `chrome.debugger` 的权限。插件包含编译后的 JavaScript 和固定生产依赖；用户不执行 npm/pnpm install、不本地构建、不下载 Playwright Chromium。启动器校验当前 Node 和产物完整性，不切换 Node、不修改 PATH，不通过下载缓存复制修补缺失产物。
+
+运行时及依赖随 `runtime.pack.gz` 交付，启动器将校验通过的内容离线展开到用户的 `~/.cdphelper/runtimes/`。仓库和插件安装目录不保存展开的 node_modules；产物损坏时重新安装完整的同版本插件，不让 Agent 在线安装缺失依赖。
 
 Codex：
 
@@ -65,8 +67,10 @@ pnpm run build:plugin
 pnpm run test:plugin
 ```
 
-构建结果在 `dist/plugin-marketplace/`，用于组装 cdpHelper 的完整插件产物；独立扩展 ZIP 用于 cdpHelper Release。源码、测试和开发依赖不下发到插件运行目录，`source/ModCDP` 仅为开发者追溯源码的子模块。构建不是发布；提交分发仓库、更新子模块指针或上传 Release 应分别验证，不以其中一步成功代替完整验收。不发布自有 npm 包。
+`build:plugin` 独立于子模块生成完整的 `dist/plugin-marketplace/`；独立扩展 ZIP 用于 cdpHelper Release。技能源码位于 `plugin/skills/cdphelper/`，清单由主仓构建器生成。源码、测试和开发依赖不下发到插件运行目录。
 
-独立 checkout 的 `pnpm run proxy-existing` 与 `skills/cdphelper/scripts/run.mjs --repo <源码目录>` 保留兼容。它使用固定客户端端口9223、扩展端口29292，同一代理只允许一个 CDP 客户端顺序接入；该入口不提供插件的29393多 profile 登记、会话选择和隔离管理。
+维护者提交干净源码并确认 `cdpHelper/` 子模块已初始化、工作区干净后，可运行 `pnpm run deliver:plugin`：构建并校验正式候选，仅更新子仓的 `.agents/plugins/marketplace.json`、`.claude-plugin/marketplace.json` 和 `plugins/cdphelper/`，不覆盖子仓 README 或 Git 数据。命令不自动提交或推送。随后核验并提交分发仓库，最后更新父仓指针；产物记录实际源码构建提交，不为追平指针提交而反复重建。不发布自有 npm 包。
+
+独立 checkout 的 `pnpm run proxy-existing` 与 `node plugin/skills/cdphelper/scripts/run.mjs --repo <源码目录>` 保留兼容；该 runner 仅供源码开发，不随插件交付。它使用固定客户端端口9223、扩展端口29292，同一代理只允许一个 CDP 客户端顺序接入；该入口不提供插件的29393多 profile 登记、会话选择和隔离管理。
 
 ModCDP 上游尚未提供明确许可证；插件格式和测试通过不代表取得分发授权，不为上游代码虚构许可证。对外分发授权及第三方许可证义务需要另行核对。

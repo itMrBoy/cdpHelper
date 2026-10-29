@@ -7,6 +7,8 @@ description: 当用户要求使用雪诺浏览器（Snow Browser、Snow 浏览�
 
 Codex 与 Claude Code 共用本技能，通过 cdpHelper 插件 MCP 和 Playwright 操作雪诺。默认入口为 cdpHelper 的 main 分支插件市场；扩展从同一发布的独立 Release ZIP 下载后由用户手动加载。安装和排错见 [setup.md](references/setup.md)。
 
+用户只需准备 Node ≥22；运行时及固定生产依赖随 `runtime.pack.gz` 提供，由启动器校验后离线展开到用户目录。不要为插件运行执行 npm/pnpm install、下载 Chromium 或在用户项目中补依赖。产物缺失或校验失败时重新安装完整的同版本插件，不在线修补依赖。源码开发者的依赖安装流程见 setup.md。
+
 ## 首次选择与实例识别
 
 每个会话首次操作浏览器前，**先调用 `browser_status`**，列出当前 inventory 中每个实例的名称、短编号和状态，再在**同一个问题**中让用户选择某个已有实例，或“启动新的隔离雪诺实例”。不能先泛问“复用还是隔离”后才查询实例。没有已登记实例时明确说明清单为空，并提供新开隔离及先安装/启用扩展的指引，不虚构可复用选项。

@@ -1,10 +1,10 @@
 {
   "version": "0.1.1",
-  "digest": "0defcef0691b5f25b0d30403999b4392496166b85bc771357591bfebf722a571",
-  "source_commit": "8fe202edac3f53574d8c1040273608db8654d70a",
+  "digest": "845be95637fbf9db7a9d02ae5a143ecba2ed0fb5a3d628e202f957724a453878",
+  "source_commit": "0c991357e3752217e00b05d27100c0583cc851c5",
   "source_dirty": false,
   "runtime_files": {
-    "build.json": "54113d538d40178aacb264ab3d2691d3d08df384f805fe5cc41aafd0c50d6879",
+    "build.json": "8334ada4be77b2c8ef1d5c1f57b1f8319ff300ec00e856e9f04e5b7a80da0bc1",
     "cli.mjs": "84876cf02c05d4e1c35773d72415b92340761d338f82c4a09f416427715a25bc",
     "node_modules/@hono/node-server/dist/conninfo.cjs": "9b5088b89f4729e7bd4c841b5a35f59ddd5bc9666762a3c6d41a3c9d6a143cd6",
     "node_modules/@hono/node-server/dist/conninfo.d.cts": "e156ecd958ee4a1be3e97e523e262255b14fe7fd346cf5cfb0cb0a5c1d9f261f",
@@ -3875,10 +3875,10 @@
     "mcp.codex.json": "d4a3e981734dd53d4be51ab995e056d3c60416840396be29d92d170fa21659da",
     "mcp.json": "32806514fd3568e168e072e564c87ead326ae878597479aca8bd7dddc40aa702",
     "plugin.json": "e1deba090198224c439e12e484f977ec710a76f319521b1df295dd6de00495ea",
-    "runtime.pack.gz": "99e84ac18a23b6102a4cc2f3e97e29e17e3674cdf31bcb0218ddc9a36c8bf5d0",
+    "runtime.pack.gz": "795e0ed17cf9d0c861f9e73df1e53aed16b2f6a43b63e4cf52474d482e37265c",
     "skills/cdphelper/agents/openai.yaml": "11d2a18453b9521d80bc7d3dca85ad8c7245431680c4c9305c8d26a3f092882a",
-    "skills/cdphelper/references/setup.md": "21b90e5e3dc321b64e679c8cb08d63e3810cd6bb1346cb26f0f346a97dfe87bd",
-    "skills/cdphelper/SKILL.md": "532b730e4366d3c20600ecaed779540941ab579dceea5a3e02534d69867df06c",
+    "skills/cdphelper/references/setup.md": "1d3b84030e6922d1d0b0bbf034461ece185e06e5e2341290cf23457d353af56d",
+    "skills/cdphelper/SKILL.md": "aae57530b7540a86aaf72638c697a4ae22c8541adbfa4d66e2837cf91ffce1e0",
     "THIRD_PARTY_NOTICES.md": "e09db8659223e92fe9a9707e65a5ca43543b57757dbcb3fd0fafbaf28999354c"
   }
 }
