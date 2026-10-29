@@ -22,11 +22,11 @@ Claude Code：
 /plugin install cdphelper@cdphelper-plugins
 ```
 
-上述命令用于 cdpHelper 发布完成后的安装；当前远端分支与 Release 尚未发布，不能作为已经可用的安装承诺。安装后打开新会话，确认插件技能和 `cdphelper` MCP 服务已加载；仅复制技能不会安装服务。Codex 可能以 `cdphelper:cdphelper` 返回插件技能名。移除旧的独立同名技能可避免规则混用。
+安装后打开新会话，确认插件技能和 `cdphelper` MCP 服务已加载；仅复制技能不会安装服务。Codex 可能以 `cdphelper:cdphelper` 返回插件技能名。移除旧的独立同名技能可避免规则混用。
 
 ## 扩展单独安装
 
-计划在 **cdpHelper Release** 的 `v0.1.1` tag 提供 `cdphelper-extension-v0.1.1.zip`（当前尚未发布）。发布后获取与插件版本匹配的独立扩展 ZIP，用户自行解压到稳定目录。在要控制的雪诺 profile 中打开扩展管理页（通常为 `chrome://extensions`），开启开发者模式，点击“加载已解压的扩展”，选择 **解压结果内含 `manifest.json` 的 `extension/` 子目录**，不要选择 ZIP 根目录。已有扩展更新时，由用户替换 Release 文件并手动重载。
+从 [cdpHelper Releases](https://github.com/itMrBoy/cdpHelper/releases) 的对应 `v<版本号>` tag 下载 `cdphelper-extension-v<版本号>.zip`，确保扩展与插件版本匹配。用户自行解压到稳定目录。在要控制的雪诺 profile 中打开扩展管理页（通常为 `chrome://extensions`），开启开发者模式，点击“加载已解压的扩展”，选择 **解压结果内含 `manifest.json` 的 `extension/` 子目录**，不要选择 ZIP 根目录。已有扩展更新时，由用户替换 Release 文件并手动重载。
 
 多个普通 profile 可加载同一份扩展文件；身份和连接配置由每个 profile 的扩展 storage 保存。插件不会接收本机扩展目录、下载扩展、从缓存复制扩展或向公共扩展目录写入连接凭据，也没有 `configure_extension` 工具。
 

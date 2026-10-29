@@ -1,10 +1,10 @@
 {
   "version": "0.1.1",
-  "digest": "033f4231c039b692f3c1461c7c312f0293b5be2f9f37207c01d41c51329c4313",
-  "source_commit": "97e6b3dfe1331c68a3b49265e1f80820612b6be9",
+  "digest": "066db923e1f0dbc0cb9b1c59fb290854b0b998585d73b4765aba34837f51b6ce",
+  "source_commit": "dd5cb1468a986a9442053d07b0376d6f64d1556a",
   "source_dirty": false,
   "runtime_files": {
-    "build.json": "04c0385bc0afa49fce58a184e3d023b5575831c6b4df1231d3b7045a51987d14",
+    "build.json": "74a638d3bd9b2e23e059fb1dd46aa7ab3265b815ddd6362c630e31b5342b479f",
     "cli.mjs": "abbab3f8b4c4ffb21b5595fb6c47ced8c55e23703a9f09116f471c58e15e3613",
     "node_modules/@hono/node-server/dist/conninfo.cjs": "9b5088b89f4729e7bd4c841b5a35f59ddd5bc9666762a3c6d41a3c9d6a143cd6",
     "node_modules/@hono/node-server/dist/conninfo.d.cts": "e156ecd958ee4a1be3e97e523e262255b14fe7fd346cf5cfb0cb0a5c1d9f261f",
@@ -3875,9 +3875,9 @@
     "mcp.codex.json": "d4a3e981734dd53d4be51ab995e056d3c60416840396be29d92d170fa21659da",
     "mcp.json": "32806514fd3568e168e072e564c87ead326ae878597479aca8bd7dddc40aa702",
     "plugin.json": "e1deba090198224c439e12e484f977ec710a76f319521b1df295dd6de00495ea",
-    "runtime.pack.gz": "704934d7ba0bdfe66d0868f3a2011797c058dbf2338c30a75d7293770e711713",
+    "runtime.pack.gz": "72901488b8a33c29bc86cadbbb51e161cb26946897a5ea2e219da7744f0108c8",
     "skills/cdphelper/agents/openai.yaml": "11d2a18453b9521d80bc7d3dca85ad8c7245431680c4c9305c8d26a3f092882a",
-    "skills/cdphelper/references/setup.md": "1d3b84030e6922d1d0b0bbf034461ece185e06e5e2341290cf23457d353af56d",
+    "skills/cdphelper/references/setup.md": "48dc1f60a8dac89b45a59300851118b485e1d08ad9c0375d86ed5f49d4e5e7d7",
     "skills/cdphelper/SKILL.md": "aae57530b7540a86aaf72638c697a4ae22c8541adbfa4d66e2837cf91ffce1e0",
     "THIRD_PARTY_NOTICES.md": "e09db8659223e92fe9a9707e65a5ca43543b57757dbcb3fd0fafbaf28999354c"
   }
