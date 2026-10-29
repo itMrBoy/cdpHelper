@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "cdphelper": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "launch.mjs"
+      ],
+      "cwd": "."
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "cdphelper-plugins",
+  "description": "cdpHelper browser automation plugin marketplace",
+  "owner": {
+    "name": "itMrBoy"
+  },
+  "plugins": [
+    {
+      "name": "cdphelper",
+      "source": "./plugins/cdphelper",
+      "version": "0.1.1"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+# Distribution files are verified byte for byte against artifact.json.
+/plugins/cdphelper/** -text
+/.agents/plugins/marketplace.json -text
+/.claude-plugin/marketplace.json -text
+/README.md text eol=lf
+/README.zh-CN.md text eol=lf

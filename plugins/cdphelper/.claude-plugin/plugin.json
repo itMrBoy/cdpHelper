@@ -1,0 +1,11 @@
+{
+  "name": "cdphelper",
+  "displayName": "cdpHelper",
+  "version": "0.1.1",
+  "description": "Operate browsers with Playwright through a local MCP service.",
+  "author": {
+    "name": "itMrBoy"
+  },
+  "homepage": "https://github.com/itMrBoy/cdpHelper/tree/main",
+  "repository": "https://github.com/itMrBoy/cdpHelper"
+}

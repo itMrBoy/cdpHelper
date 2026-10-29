@@ -1,0 +1,6 @@
+interface:
+  display_name: "cdpHelper"
+  short_description: "先列出已有实例供选择或新开隔离，再通过 Playwright 操作雪诺"
+
+policy:
+  allow_implicit_invocation: true

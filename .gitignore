@@ -1,0 +1,6 @@
+# Local candidate staging and unpacked dependencies are not distributed in Git.
+/dist/
+/.candidate/
+node_modules/
+*.log
+*/node_modules/
