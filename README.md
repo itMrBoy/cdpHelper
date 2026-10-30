@@ -32,9 +32,40 @@ Claude Code:
 
 The plugin and the browser extension are separate installations. Installing the plugin does not install, download, cache, or copy the browser extension, and the plugin does not accept an extension installation directory.
 
-Plugin and extension versions must match the compatibility metadata. Version **0.2.0** uses extension **0.2.0** and bridge protocol **2**. The [v0.2.0 Release](https://github.com/itMrBoy/cdpHelper/releases/tag/v0.2.0) includes the matching extension ZIP, release manifest, and checksums. Check the installed plugin's `artifact.json` and the matching Release notes and manifest for build provenance and compatible extension downloads. Only use attachments that are actually listed on the matching Release; do not infer Release availability from the marketplace version.
+Plugin and extension versions must match the compatibility metadata. Version **0.2.1** uses extension **0.2.1** and bridge protocol **2**. The [v0.2.1 Release](https://github.com/itMrBoy/cdpHelper/releases/tag/v0.2.1) includes the matching extension ZIP, release manifest, and checksums. Check the installed plugin's `artifact.json` and the matching Release notes and manifest for build provenance and compatible extension downloads. Only use attachments that are actually listed on the matching Release; do not infer Release availability from the marketplace version.
 
 The plugin installs without a source checkout or submodule initialization. Maintainers can also validate a local marketplace checkout using isolated host configuration directories. Host installation and runtime compatibility are separate checks and are not established by artifact hashes.
+
+## Update the cdpHelper plugin
+
+The cdpHelper plugin is installed in Codex or Claude Code and includes the local background service. The cdpHelper browser extension is installed in a Snow Browser profile. Update them separately and keep their versions identical.
+
+Codex (run in a terminal):
+
+```sh
+codex plugin marketplace upgrade cdphelper-plugins
+codex plugin add cdphelper@cdphelper-plugins
+```
+
+Claude Code (run in a terminal):
+
+```sh
+claude plugin marketplace update cdphelper-plugins
+claude plugin update cdphelper@cdphelper-plugins
+```
+
+After updating, exit and reopen the corresponding Codex or Claude Code host to load the new cdpHelper plugin. Reconnecting MCP alone may reuse the old launch path. If installed in both hosts, update each separately. Snow Browser does not need to restart. Backend handover may interrupt old page control and diagnostics; operations already sent may still take effect. Select the instance and page again afterward; operations are not replayed automatically.
+
+## Update the cdpHelper browser extension
+
+1. Download the Release extension ZIP matching your cdpHelper plugin version and extract it to a temporary directory.
+2. Replace the extension files at the original loaded location with the complete contents of the new archive's `extension/` directory. Keep the original path and do not uninstall the extension.
+3. In every target Snow Browser profile, open `chrome://extensions` and click **Reload** for the cdpHelper browser extension. Confirm that its version matches this Release.
+4. Check the extension options page for connection status, keeping the existing local service address and instance name. Ask the Agent to call `browser_status`, verify the plugin backend and browser extension versions, then select the instance and page again using the new number.
+
+Updating the plugin does not update the browser extension, and updating the extension does not update either host's plugin. The plugin never downloads, caches, copies, or installs this extension. Browser actions use Playwright; Computer Use may only launch Snow Browser. Before closing or cleaning up an AI-created isolated profile, the AI asks for your confirmation.
+
+If the old plugin backend reports `upgrade_blocked`, it may own a legacy isolated Snow Browser window whose lifetime is still tied to that backend. Follow the status guidance before continuing; do not bypass the protection by forcefully terminating the backend. Profiles are not deleted automatically, and ordinary user-started Snow Browser windows do not need to close.
 
 ## Connect a browser
 
@@ -98,6 +129,16 @@ Release prerequisites: source A and distribution B must be available and merged 
 The distribution `main` starts with a clean initial commit whose reachable history has no unpacked `node_modules` paths. Earlier local history containing those files is preserved under a local backup reference, outside the ancestry of the distribution `main`. Keep that backup local; do not push backup refs or use `git push --all` or `git push --mirror` when publishing this repository.
 
 Artifact verification and automated tests do not establish host installation or real Snow Browser compatibility. Record host discovery/MCP startup and browser page-operation results separately, including multiple existing profiles and isolated instances.
+
+## Version 0.2.1 and validation boundaries
+
+The cdpHelper plugin and browser extension are both **0.2.1**, using bridge protocol **2**. This version fixes plugin backend upgrade handover, component-specific version guidance, Windows isolated-instance lifetime protection, and control-bar interference with Playwright click targets. The plugin injects the control bar; the browser extension bridges communication.
+
+Clean source A: `1980d40311009562e2ebb7aaea1bdfda8efabf86` (`source_dirty: false`); runtime digest: `f9ed6a9b2bff6cc4321b32508736fb0c10990d367ccc5dfbf05ff4249360115e`. The release artifact passed 105/105 plugin tests (concurrency 2), launcher verification, and tool discovery checks. Automated browser regressions cover control-bar avoidance, post-scroll target positioning, passive pointer pass-through, and trusted stop. These checks do not establish a real-Snow retest of the original failing page. Real host acceptance and Windows Snow GUI preservation across upgrade must be confirmed separately from actual test evidence.
+
+## Historical 0.2.0 validation
+
+The following records apply only to 0.2.0 and do not establish fresh 0.2.1 acceptance.
 
 Build provenance for 0.2.0: clean source A `ecfa662924e32f09d634fff1744c0bc6bb84f231` (`source_dirty: false`), artifact SHA-256 `7de4f4975beebfdd6d3949b9bfbf83f80592f297f74f6b8de5ca0921a1654cbf`, and runtime digest `415c67dc22120a144424df398defa82cc37b94209bc9547b7dbba196466726b3`. All 15 marketplace files match the delivered build. Packed runtime hashes, modes, provenance, and licenses have been verified; `node plugins/cdphelper/launch.mjs --check` passed. The published extension ZIP and manifest match `SHA256SUMS`, and the ZIP retains the original logo bytes and extension identity.
 

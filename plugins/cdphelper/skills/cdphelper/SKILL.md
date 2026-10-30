@@ -11,6 +11,14 @@ Codex 与 Claude Code 共用本技能，通过 cdpHelper 插件 MCP 和 Playwrig
 
 ## 首次选择与实例识别
 
+先检查 `browser_status.runtime.state`。`upgrade_required` 表示 **cdpHelper plugin 本机后台**需要交接：先把返回的组件名称、当前/目标版本、中断影响告知用户，然后立即再调用 `browser_status`，传入 `acknowledge_upgrade_notice: <upgrade_notice_id>`；这不是再次请求用户确认。交接会中断旧 plugin 的控制与采集，但保留 Codex/Claude、雪诺窗口、标签页和 profile。不能重放未知结果的操作。`plugin_reload_required` 表示该宿主当前会话仍加载旧 **cdpHelper plugin**：明确说是 Codex 还是 Claude Code，要求重新加载该宿主的 plugin 配置；不支持时退出并重开该宿主。只重连 MCP 可能仍沿用旧启动路径，无需重启雪诺。
+
+`extension_update_required` 表示 **cdpHelper 浏览器扩展**较旧：说明当前/要求的扩展版本及原因，指导用户在对应雪诺 profile 手动更新并重载浏览器扩展；不能把它说成 plugin 升级，也不能自动下载、安装或重载扩展。`plugin_update_required` 表示扩展较新，而本机 **cdpHelper plugin** 不配套：说明两端版本，要求更新或重新加载当前宿主的 plugin，不要求用户降级扩展。其他 `extension_issues` 按各项的组件和恢复动作分别告知，不笼统归因。`failed` 表示 plugin 本机服务未就绪，展示返回的具体原因。后台未就绪时 `instances: null` 不是实例清单为空，不得虚构浏览器或新开隔离实例绕过故障。提示不得只说“发现新版”“请重启”，必须包含组件、版本和操作对象。
+
+确认提示后的 `upgrading` 表示 **cdpHelper plugin 后台**交接尚未结束。按 `retry_after_ms` 再查 `browser_status`，最多等待 30 秒，不重复回传提示标识、不重放页面动作；仍未完成则告知 plugin 后台升级尚未完成。`ready` 或扩展问题状态表示后台可查询，随后按实际 inventory 继续。
+
+`upgrade_blocked` 表示为保留旧版隔离雪诺窗口，**cdpHelper plugin 后台**交接已被阻止。Windows 上旧版 plugin 创建的隔离雪诺可能仍依赖旧后台进程；停止旧后台会连带终止窗口。保持旧后台与窗口，展示返回的旧/目标 plugin 版本及原因，不自动重试交接、不结束旧宿主或后台、不要求用户重连已退出的浏览器。待用户主动结束这些旧隔离窗口并明确继续后，再查询状态并重新走告知与交接。新启动方式的修复不能追溯解除旧窗口的父进程依赖。
+
 每个会话首次操作浏览器前，**先调用 `browser_status`**，列出当前 inventory 中每个实例的名称、`display_number` 和状态，再在**同一个问题**中让用户选择某个已有实例，或“启动新的隔离雪诺实例”。不能先泛问“复用还是隔离”后才查询实例。没有已登记实例时明确说明清单为空，并提供新开隔离及先安装/启用扩展的指引，不虚构可复用选项。
 
 得到选择前不调用 `browser_select`、不启动或连接浏览器、不操作网页，不能沿用之前会话的同意。用户选定清单中的实例后，将显示编号映射到该次 inventory 的完整连接 UUID，调用 `browser_select`，传入 `{mode: "reuse", instance_id: "<连接UUID>"}`。不让用户查找 UUID，不因只有一个实例便自动选中。
@@ -70,6 +78,6 @@ Codex 与 Claude Code 共用本技能，通过 cdpHelper 插件 MCP 和 Playwrig
 
 ## 结果边界
 
-分别确认后台服务、扩展登记、所选实例连接和 Playwright 页面可操作状态。监听成功或 inventory 存在不等于网页任务完成。扩展升级由用户更新 Release ZIP 并手动重载；插件整体升级后新会话生效，不强制中断活动旧会话。占用端口时报告，不结束未知进程。
+分别确认 cdpHelper plugin 后台服务、浏览器扩展登记、所选实例连接和 Playwright 页面可操作状态。监听成功或 inventory 存在不等于网页任务完成。浏览器扩展升级由用户更新 Release ZIP 并手动重载；plugin 本机后台按“先告知、回传提示标识、有界中断旧工作并交接”执行。宿主仍加载旧 plugin 路径时重新加载该宿主的 plugin 配置；不支持时退出重开宿主，无需重启雪诺。占用端口时报告，不结束未知进程。
 
 最后说明实际结果与未验证步骤。源码 checkout 的独立代理仍保留兼容入口，不属于插件的多 profile 会话管理流程。
