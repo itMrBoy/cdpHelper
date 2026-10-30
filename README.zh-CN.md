@@ -32,9 +32,40 @@ Claude Code:
 
 插件和浏览器扩展需要分别安装。安装插件不会安装、下载、缓存或复制浏览器扩展，插件也不接收扩展安装目录。
 
-插件与扩展须按兼容元数据配套使用。版本 **0.2.0** 对应扩展 **0.2.0** 和桥接协议 **2**。[v0.2.0 Release](https://github.com/itMrBoy/cdpHelper/releases/tag/v0.2.0) 已提供配套扩展 ZIP、发布清单和校验和。构建来源和兼容扩展下载以已安装插件的 `artifact.json`、对应 Release 说明及发布清单为准。只使用对应 Release 页面实际列出的附件，不根据市场版本推定 Release 已存在。
+插件与扩展须按兼容元数据配套使用。版本 **0.2.1** 对应扩展 **0.2.1** 和桥接协议 **2**。[v0.2.1 Release](https://github.com/itMrBoy/cdpHelper/releases/tag/v0.2.1) 已提供配套扩展 ZIP、发布清单和校验和。构建来源和兼容扩展下载以已安装插件的 `artifact.json`、对应 Release 说明及发布清单为准。只使用对应 Release 页面实际列出的附件，不根据市场版本推定 Release 已存在。
 
 完整插件不依赖源码检出或初始化子模块。维护者也可使用本地市场检出和独立宿主配置目录进行验收。宿主安装和运行兼容需要单独验证，不能根据产物摘要认定通过。
+
+## 更新 cdpHelper plugin
+
+cdpHelper plugin 安装在 Codex、Claude Code 中，包含本机后台服务；cdpHelper 浏览器扩展安装在雪诺 profile 中。两者分别更新，并保持相同版本。
+
+Codex（在终端执行）：
+
+```sh
+codex plugin marketplace upgrade cdphelper-plugins
+codex plugin add cdphelper@cdphelper-plugins
+```
+
+Claude Code（在终端执行）：
+
+```sh
+claude plugin marketplace update cdphelper-plugins
+claude plugin update cdphelper@cdphelper-plugins
+```
+
+命令完成后，退出并重新打开对应的 Codex 或 Claude Code，以加载新的 cdpHelper plugin；仅重连 MCP 可能继续使用旧启动路径。两端都安装了 plugin 时，分别执行各自的更新命令。无需重启雪诺。后台交接可能中断旧页面控制和诊断采集，已发出的操作可能继续产生效果；恢复后重新选择实例和页面，不自动重放操作。
+
+## 更新 cdpHelper 浏览器扩展
+
+1. 下载与 cdpHelper plugin 相同版本的 Release 扩展 ZIP，先解压到临时目录。
+2. 用新包中 `extension/` 的完整内容替换原加载目录的扩展文件，保持原加载路径，不卸载扩展。
+3. 在每个目标雪诺 profile 打开 `chrome://extensions`，找到 cdpHelper 浏览器扩展并点击“重新加载”。确认显示的版本与本次 Release 一致。
+4. 在扩展选项页核对连接状态，保留原有本机服务地址和实例名称。再让 Agent 调用 `browser_status`，核对 plugin 后台与浏览器扩展版本，并按新的编号重新选择实例和页面。
+
+更新 plugin 不会更新浏览器扩展，更新扩展也不会更新宿主中的 plugin。插件不会下载、缓存、复制或安装本扩展。网页操作使用 Playwright；Computer Use 仅可用于启动雪诺。关闭和清理 AI 创建的隔离 profile 前会征求用户确认。
+
+如果旧 plugin 后台提示 `upgrade_blocked`，它可能仍关联旧版启动、未脱离后台进程生命周期的隔离雪诺窗口。按状态提示处理后再继续；不要通过强制结束后台绕过保护。profile 不自动删除，普通用户自行启动的雪诺窗口无需关闭。
 
 ## 连接浏览器
 
@@ -98,6 +129,16 @@ Release 说明自动生成中文，包含版本、来源、插件安装说明及
 分发 `main` 从干净初始提交开始，其全部可达历史均不含展开的 `node_modules` 路径。包含这些文件的旧本地历史保留在本地备份引用中，不作为分发 `main` 的祖先。备份引用仅在本地保留；发布时不得推送备份引用，也不要使用 `git push --all` 或 `git push --mirror`。
 
 产物校验与自动化测试不能证明宿主安装或真实雪诺兼容。宿主技能发现和 MCP 启动、浏览器页面操作需分别记录验收结果，并覆盖多个已有 profile 及隔离实例。
+
+## 0.2.1 版本与验收边界
+
+cdpHelper plugin 与浏览器扩展均为 **0.2.1**，桥接协议保持 **2**。本版修复 plugin 后台升级交接、组件版本提示、Windows 隔离实例生命周期保护，以及接管栏遮挡 Playwright 点击目标的问题。接管栏由 plugin 注入，浏览器扩展负责桥接通信。
+
+干净源码 A：`1980d40311009562e2ebb7aaea1bdfda8efabf86`（`source_dirty: false`）；运行时 digest：`f9ed6a9b2bff6cc4321b32508736fb0c10990d367ccc5dfbf05ff4249360115e`。正式产物通过插件回归 105/105（并发 2）、启动校验及工具发现检查。自动化浏览器回归覆盖接管栏避让、滚动后定位、被动区域点击穿透与可信停止；这不代表原失败页面的真实雪诺复验已完成。双宿主真实验收和 Windows 雪诺 GUI 在升级后的窗口保留仍须按实际测试结果分别确认。
+
+## 历史 0.2.0 验收记录
+
+以下记录仅对应 0.2.0，不作为 0.2.1 的重新验收结果。
 
 0.2.0 构建来源：干净源码 A `ecfa662924e32f09d634fff1744c0bc6bb84f231`（`source_dirty: false`），产物 SHA-256 为 `7de4f4975beebfdd6d3949b9bfbf83f80592f297f74f6b8de5ca0921a1654cbf`，运行时 digest 为 `415c67dc22120a144424df398defa82cc37b94209bc9547b7dbba196466726b3`。全部 15 个市场文件与交付构建一致，运行包文件摘要、权限、来源和许可证已核验，`node plugins/cdphelper/launch.mjs --check` 通过。公开扩展 ZIP 与发布清单均通过 `SHA256SUMS` 校验，ZIP 中的 logo 保留原图字节，扩展身份未改变。
 
