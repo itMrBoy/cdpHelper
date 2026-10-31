@@ -1,11 +1,11 @@
 {
-  "version": "0.2.1",
-  "digest": "f9ed6a9b2bff6cc4321b32508736fb0c10990d367ccc5dfbf05ff4249360115e",
-  "source_commit": "1980d40311009562e2ebb7aaea1bdfda8efabf86",
+  "version": "0.2.2",
+  "digest": "b3e3443aa8b7aa2c4812a1c45e2ba8119364a6630c978da65362f8f72255929f",
+  "source_commit": "bd823548f398540cd94df492e74d227b814266d8",
   "source_dirty": false,
   "runtime_files": {
-    "build.json": "9dbe7822f1d4389a22852b9d7cc4b156de88e932770b51af98be91fac361874f",
-    "cli.mjs": "85814fb597133f215dd32d1e8db889ec3603b8a22b7c569dab37472cadd1909b",
+    "build.json": "8f12ec56ff731ffe3fa67806b23c4e56b2de4fd41c82260f36204b002d8da5a0",
+    "cli.mjs": "035d681b40f4ec571d43c7a1acdbd25913186805c40a83089a5ade626212dada",
     "node_modules/@hono/node-server/dist/conninfo.cjs": "9b5088b89f4729e7bd4c841b5a35f59ddd5bc9666762a3c6d41a3c9d6a143cd6",
     "node_modules/@hono/node-server/dist/conninfo.d.cts": "e156ecd958ee4a1be3e97e523e262255b14fe7fd346cf5cfb0cb0a5c1d9f261f",
     "node_modules/@hono/node-server/dist/conninfo.d.mts": "e156ecd958ee4a1be3e97e523e262255b14fe7fd346cf5cfb0cb0a5c1d9f261f",
@@ -1933,7 +1933,7 @@
     "node_modules/zod-to-json-schema/LICENSE": "80d3168ad2f70f6f5bb2ab22b23414707abf6f0a392034891481ae36a1a429d4",
     "node_modules/zod-to-json-schema/package.json": "1f78f7c62913083878cd5bb0e9d10b8f5893d5799bbe1295068046707c24de3c",
     "node_modules/zod-to-json-schema/README.md": "6f71de29f58a02b6a8f146d9a81a657c5d04ec1967c150f3ffc1e319f33df664",
-    "package.json": "36fc51d2f474513b25b13d5263ef57bba892dacf0a632949e329208a81ee7385"
+    "package.json": "971d0c732e7d9e968dd32ac19d46c1eb164e54029c2b1a3e29e3293e70c7f6a8"
   },
   "runtime_modes": {
     "build.json": 438,
@@ -3868,17 +3868,17 @@
     "package.json": 438
   },
   "files": {
-    ".claude-plugin/plugin.json": "2be5ae5834e56bfb107fb99b529760857414854dd829d5fa857d67f39f771095",
-    ".codex-plugin/plugin.json": "e3a686bed6f5f71e82e6cca635828ea69e93a9b96991ade242b511860915fcd9",
+    ".claude-plugin/plugin.json": "0a2b3acf3104dde710bfe28c9a7fc16124c390af1cf844decbe807847200a6f0",
+    ".codex-plugin/plugin.json": "bc0d6be443a5e583b5450f25c82f58045c191270119c8161c028ccbfc8259e2d",
     ".mcp.json": "56a7b59fde95671e16998a5a606c39de7ec5cf7862d4e7604765c832be0418f0",
-    "launch.mjs": "07cff847d738aa08b6b9fa0d10af8310d801b16b65a54d7c11671e2f6458f3b5",
+    "launch.mjs": "06c6022c698951ad32ed55c21d60f102cff6519b77811d7f5bcfcd7584dcf86b",
     "mcp.codex.json": "d4a3e981734dd53d4be51ab995e056d3c60416840396be29d92d170fa21659da",
     "mcp.json": "32806514fd3568e168e072e564c87ead326ae878597479aca8bd7dddc40aa702",
-    "plugin.json": "b12d7630fb848ae74f05a83a23d1c681f979a0eacf8f89735740d3b3b580bb8d",
-    "runtime.pack.gz": "0a4bd4f44f6341b6c313e72f227a517f65820e966b8c09b0d3eb3e59de6a9a13",
-    "skills/cdphelper/agents/openai.yaml": "c200006e5e7150bcdd6b137043d9315591179e778067a0f669a5101ac528d8e6",
-    "skills/cdphelper/references/setup.md": "7e13f67582624a6b245cc3496681ddcbbd81d90633222d7947cd84c1fd183fe4",
-    "skills/cdphelper/SKILL.md": "ada3d8038f3da1c31b9b956c64e5457c9d04c7b7b6c8f0890f35fc33deaf5b2d",
+    "plugin.json": "5c47f4d8b628a73cc947e2d4250de1314ac3fe8d3e2ecba44d286fd9ccfbb408",
+    "runtime.pack.gz": "6054b7b62b23e597f29e4eb3725e0a39562ff6ae524cffb581a9202c930936e8",
+    "skills/cdphelper/agents/openai.yaml": "11d2a18453b9521d80bc7d3dca85ad8c7245431680c4c9305c8d26a3f092882a",
+    "skills/cdphelper/references/setup.md": "8a918db945a841ddbb9b49a990b3b1434a9174e37cfe3e4dfef757224e4d4d27",
+    "skills/cdphelper/SKILL.md": "0d6c7fd1cc763d6918080a2133e4eff8fd179c7809226e8f092670af625db451",
     "THIRD_PARTY_NOTICES.md": "e09db8659223e92fe9a9707e65a5ca43543b57757dbcb3fd0fafbaf28999354c"
   }
 }

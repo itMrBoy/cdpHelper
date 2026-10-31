@@ -32,7 +32,7 @@ Claude Code:
 
 The plugin and the browser extension are separate installations. Installing the plugin does not install, download, cache, or copy the browser extension, and the plugin does not accept an extension installation directory.
 
-Plugin and extension versions must match the compatibility metadata. Version **0.2.1** uses extension **0.2.1** and bridge protocol **2**. The [v0.2.1 Release](https://github.com/itMrBoy/cdpHelper/releases/tag/v0.2.1) includes the matching extension ZIP, release manifest, and checksums. Check the installed plugin's `artifact.json` and the matching Release notes and manifest for build provenance and compatible extension downloads. Only use attachments that are actually listed on the matching Release; do not infer Release availability from the marketplace version.
+Plugin and extension versions must match the compatibility metadata. Version **0.2.2** uses extension **0.2.2** and bridge protocol **2**. The [v0.2.2 Release](https://github.com/itMrBoy/cdpHelper/releases/tag/v0.2.2) includes the matching extension ZIP, release manifest, and checksums. Check the installed plugin's `artifact.json` and the matching Release notes and manifest for build provenance and compatible extension downloads. Only use attachments that are actually listed on the matching Release; do not infer Release availability from the marketplace version.
 
 The plugin installs without a source checkout or submodule initialization. Maintainers can also validate a local marketplace checkout using isolated host configuration directories. Host installation and runtime compatibility are separate checks and are not established by artifact hashes.
 
@@ -130,7 +130,13 @@ The distribution `main` starts with a clean initial commit whose reachable histo
 
 Artifact verification and automated tests do not establish host installation or real Snow Browser compatibility. Record host discovery/MCP startup and browser page-operation results separately, including multiple existing profiles and isolated instances.
 
-## Version 0.2.1 and validation boundaries
+## Version 0.2.2 and validation boundaries
+
+The plugin and browser extension are both **0.2.2**, using bridge protocol **2**. This version creates background tabs on the selected instance, applies page-level focus emulation, and captures the controlled page's viewport without requesting tab or window activation. The extension no longer requests activeTab. “停止控制” pauses agent operations and retains the session reservation; “交还控制权” restores control with a new lease and requires a fresh snapshot before further operations. Clicking another tab does not transfer control automatically.
+
+This version also fixes stopping during controller installation, unrelated pages closing during background-tab creation, and Windows default extension ZIP path resolution. Clean source A: `bd823548f398540cd94df492e74d227b814266d8` (`source_dirty: false`); runtime digest: `b3e3443aa8b7aa2c4812a1c45e2ba8119364a6630c978da65362f8f72255929f`. Local verification passed 110/110 plugin tests and 92/92 SDK tests, plus type checking, formatting, lint, and normal commit hooks. Prior real-Snow background acceptance covered a controlled local fixture; arbitrary sites, native dialogs, and fresh user-level installations in both hosts are not claimed to have passed acceptance.
+
+## Historical 0.2.1 validation
 
 The cdpHelper plugin and browser extension are both **0.2.1**, using bridge protocol **2**. This version fixes plugin backend upgrade handover, component-specific version guidance, Windows isolated-instance lifetime protection, and control-bar interference with Playwright click targets. The plugin injects the control bar; the browser extension bridges communication.
 
