@@ -1,10 +1,10 @@
 {
   "version": "0.2.3",
-  "digest": "500cb013872fd4eb47eac2383f63e65ebecd99857ca982f109959431b8821242",
-  "source_commit": "ef6270cb8e05459a852a4d0b5578d4ad4df64df7",
+  "digest": "33b28cb96a31a1968bd0f85782bbf1d7be29b2952f32f52f31326090f177b0ac",
+  "source_commit": "386337e5cdc7bed25eceb43f203fb72e88b42c84",
   "source_dirty": false,
   "runtime_files": {
-    "build.json": "d59a3c79dabc5c97c5c5f21465cad4f8a2a0185e1b4f199d1108f74938e2c95b",
+    "build.json": "ec8490b4c164749f023a912e31a5e919d7c74b99d1b25eefc59d801bfe47cbad",
     "cli.mjs": "a3ad089204907559cd5caef92b0c14062b5544e8e081e8a3c9a345d4fc0e87bd",
     "node_modules/@hono/node-server/dist/conninfo.cjs": "9b5088b89f4729e7bd4c841b5a35f59ddd5bc9666762a3c6d41a3c9d6a143cd6",
     "node_modules/@hono/node-server/dist/conninfo.d.cts": "e156ecd958ee4a1be3e97e523e262255b14fe7fd346cf5cfb0cb0a5c1d9f261f",
@@ -3875,7 +3875,7 @@
     "mcp.codex.json": "d4a3e981734dd53d4be51ab995e056d3c60416840396be29d92d170fa21659da",
     "mcp.json": "32806514fd3568e168e072e564c87ead326ae878597479aca8bd7dddc40aa702",
     "plugin.json": "886ad929a87f3d1fa83c39cc96d82e86efcf9f7fd46ffed23666d325be7f6b92",
-    "runtime.pack.gz": "6f585e32f133598410f0d636a3d59f3fd949afaee1d72348bdd6c8b07eba6dcb",
+    "runtime.pack.gz": "693a01da57dca97ee0a97726397c0c7ce0366e0838f7d7ae7e3cb386cb501ef0",
     "skills/cdphelper/agents/openai.yaml": "11d2a18453b9521d80bc7d3dca85ad8c7245431680c4c9305c8d26a3f092882a",
     "skills/cdphelper/references/setup.md": "55d55ad3b2ec7419869522884c9277ef4692fb6c07dfb3c617f5650773ac2988",
     "skills/cdphelper/SKILL.md": "0d6c7fd1cc763d6918080a2133e4eff8fd179c7809226e8f092670af625db451",
