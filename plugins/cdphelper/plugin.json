@@ -1,7 +1,7 @@
 {
   "name": "cdphelper",
   "displayName": "cdpHelper",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Operate browsers with Playwright through a local MCP service.",
   "author": {
     "name": "itMrBoy"

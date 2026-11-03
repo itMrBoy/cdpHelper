@@ -32,7 +32,7 @@ Claude Code:
 
 插件和浏览器扩展需要分别安装。安装插件不会安装、下载、缓存或复制浏览器扩展，插件也不接收扩展安装目录。
 
-插件与扩展须按兼容元数据配套使用。版本 **0.2.2** 对应扩展 **0.2.2** 和桥接协议 **2**。[v0.2.2 Release](https://github.com/itMrBoy/cdpHelper/releases/tag/v0.2.2) 已提供配套扩展 ZIP、发布清单和校验和。构建来源和兼容扩展下载以已安装插件的 `artifact.json`、对应 Release 说明及发布清单为准。只使用对应 Release 页面实际列出的附件，不根据市场版本推定 Release 已存在。
+插件与扩展须按兼容元数据配套使用。版本 **0.2.3** 对应扩展 **0.2.3** 和桥接协议 **2**。[v0.2.3 Release](https://github.com/itMrBoy/cdpHelper/releases/tag/v0.2.3) 为配套 ZIP、签名 CRX、发布清单和校验和的下载入口，安装前确认附件已发布。构建来源和兼容扩展下载以已安装插件的 `artifact.json`、对应 Release 说明及发布清单为准。只使用对应 Release 页面实际列出的附件，不根据市场版本推定 Release 已存在。
 
 完整插件不依赖源码检出或初始化子模块。维护者也可使用本地市场检出和独立宿主配置目录进行验收。宿主安装和运行兼容需要单独验证，不能根据产物摘要认定通过。
 
@@ -58,6 +58,10 @@ claude plugin update cdphelper@cdphelper-plugins
 
 ## 更新 cdpHelper 浏览器扩展
 
+CRX 用户通过浏览器支持的更新入口安装配套版本的官方 CRX，并核对 ID 和版本；以下目录覆盖步骤仅适用于 ZIP 解压加载。
+
+从 0.2.3 起，官方 CRX 与 ZIP 统一使用固定 ID `heikjbncglkkafkabolnhofdldgajbdo`。已有此 ID 的 CRX 用户同 ID 更新；原 `mdedooklbnfejodmnhmkdpkaedafkehf` 用户须安装新身份并更新配套 plugin，手动填写服务地址和实例名称，成功登记后停用旧副本。storage 不跨 ID 自动迁移。不要用另一把密钥重新打包，否则后台拒绝不同 ID。
+
 1. 下载与 cdpHelper plugin 相同版本的 Release 扩展 ZIP，先解压到临时目录。
 2. 用新包中 `extension/` 的完整内容替换原加载目录的扩展文件，保持原加载路径，不卸载扩展。
 3. 在每个目标雪诺 profile 打开 `chrome://extensions`，找到 cdpHelper 浏览器扩展并点击“重新加载”。确认显示的版本与本次 Release 一致。
@@ -71,7 +75,7 @@ claude plugin update cdphelper@cdphelper-plugins
 
 1. 启动插件，通过 `browser_status` 列出现有浏览器实例。
 2. 通过 `browser_select` 选择现有实例，或申请启动新的隔离雪诺实例，后者须满足下文归属校验。页面操作前，技能会呈现这两种选择。真实雪诺的隔离启动尚未通过验收。
-3. 如果目标浏览器没有兼容扩展，从 [cdpHelper Releases](https://github.com/itMrBoy/cdpHelper/releases) 下载配套扩展 ZIP。阅读 ZIP 内的安装说明。在**目标浏览器及其 profile** 中打开 `chrome://extensions`，开启开发者模式，加载解压结果内包含 `manifest.json` 的 **`extension/` 子目录**，不要选择 ZIP 根目录。雪诺可能已随 profile 下发扩展，启用兼容的已有副本也可以接入。
+3. 如果目标浏览器没有兼容扩展，从 [cdpHelper Releases](https://github.com/itMrBoy/cdpHelper/releases) 下载配套官方 CRX 或 ZIP。CRX 通过目标浏览器支持的扩展安装入口安装；ZIP 则阅读包内说明。使用 ZIP 时，在**目标浏览器及其 profile** 中打开 `chrome://extensions`，开启开发者模式，加载解压结果内包含 `manifest.json` 的 **`extension/` 子目录**，不要选择 ZIP 根目录。雪诺可能已随 profile 下发扩展，启用兼容的已有副本也可以接入。
 4. 重新列出实例，将扩展显示的唯一短编号与插件返回的实例对应，选定目标实例后，再绑定需要操作的标签页。
 
 扩展通过本机入口 `ws://127.0.0.1:29393/bridge` 登记运行实例，在扩展选项页可以查看名称、唯一短编号及连接状态。多个已有雪诺 profile 可以同时接入，用户无需为每个 profile 配置不同端口。多个 profile 共用的扩展 ID 不是浏览器实例 ID。每次连接生成新的 UUID `instance_id`，前八位十六进制字符为 `short_id`。断连后旧连接及标签页引用失效，需要重新列出并选择已连接实例。
@@ -82,11 +86,11 @@ claude plugin update cdphelper@cdphelper-plugins
 
 一次性 URL 本身不能证明隔离：雪诺可能将其转发到已有窗口。Windows 下，接纳隔离连接须同时核验插件所属标记，以及当前运行进程的可执行文件和精确 `--user-data-dir` profile，允许 PID 变化。对所属隔离实例的每次页面操作前都要重新核验；归属无法确认时解除连接，不发送页面操作。非 Windows 平台或进程探测失败时保持未验证。看到窗口或扩展已连接，都不足以认定隔离成立。
 
-Release 下载链接、解压目录和插件安装目录都不是需要交给 MCP 的配置参数。按 ZIP 说明在目标浏览器安装扩展即可。关闭或清理隔离 profile 前须由用户明确选择；已有浏览器窗口和标签页保留。
+Release 下载链接、解压目录和插件安装目录都不是需要交给 MCP 的配置参数。按对应 Release 的 CRX 或 ZIP 说明在目标浏览器安装扩展即可。关闭或清理隔离 profile 前须由用户明确选择；已有浏览器窗口和标签页保留。
 
 ## 下载浏览器扩展
 
-扩展仅通过 [cdpHelper Release](https://github.com/itMrBoy/cdpHelper/releases) 的独立 ZIP 附件分发。选择匹配的版本 tag，下载其中的 `cdphelper-extension-v<version>.zip`。ZIP 包含中英文安装说明，以及存放 `manifest.json`、编译后扩展文件和 `cdphelper-bridge.json` 构建信息的 `extension/` 目录，不包含实例 token 或连接配置。
+扩展通过 [cdpHelper Release](https://github.com/itMrBoy/cdpHelper/releases) 的独立 ZIP 和 CRX 附件分发。从 0.2.3 起也可下载 `cdphelper-extension-v<version>.crx`，通过浏览器支持的扩展安装入口安装。浏览器策略可能限制 CRX 安装，不绕过这些限制。选择匹配的版本 tag，下载其中的 `cdphelper-extension-v<version>.zip`。ZIP 包含中英文安装说明，以及存放 `manifest.json`、编译后扩展文件和 `cdphelper-bridge.json` 构建信息的 `extension/` 目录，不包含实例 token 或连接配置。
 
 按构建元数据及发布说明选用与插件版本兼容的扩展。安装未完成时，插件不会静默下载扩展，也不会切换到其他浏览器。
 
@@ -112,7 +116,7 @@ ModCDP 负责全部插件发布输入、实现、插件与扩展的拆分构建�
 
 在 ModCDP 中运行 `pnpm build:plugin`，可独立从源码构建插件，不依赖或更新分发子模块。在 ModCDP 中运行 `pnpm deliver:plugin`，则要求源码干净，且 `cdpHelper/` 分发子模块已初始化、工作区干净。交付仅从源码单向流向分发仓库，只更新 `.agents/plugins/marketplace.json`、`.claude-plugin/marketplace.json` 和完整的 `plugins/cdphelper` 目录，不自动提交或推送。交付后须审核并验证产物，再单独创建分发提交。
 
-插件通过 `runtime.pack.gz` 携带编译后的运行时和生产依赖，启动器校验后在用户缓存中离线展开，用户无需安装 npm 包。浏览器扩展仍通过独立的 Release ZIP 分发，不交付到插件内。
+插件通过 `runtime.pack.gz` 携带编译后的运行时和生产依赖，启动器校验后在用户缓存中离线展开，用户无需安装 npm 包。浏览器扩展仍通过独立的 Release ZIP 与签名 CRX 分发，不交付到插件内。
 
 仓库依赖方向为单向：ModCDP 根目录以 `cdpHelper/` 子模块固定本分发仓库的提交，URL 为 `https://github.com/itMrBoy/cdpHelper.git`。维护者从 ModCDP 获取实现源码，插件用户直接安装本分发仓库。正式对外分发前，源码提交和分发提交都必须能从各自远端获取。
 
@@ -122,7 +126,7 @@ ModCDP 负责全部插件发布输入、实现、插件与扩展的拆分构建�
 
 发布自动化维护在 ModCDP，本分发仓库没有独立 workflow。部署并配置后，workflow 只处理 `pull_request_target` 的 `closed` 事件中已合并到 ModCDP `main` 的 PR，先证明源码 A 是源码 `main` 的祖先，且分发 B 已合入分发 `main`。全流水线使用固定 concurrency group 与 `queue: max` 串行执行。`v<version>` tag 锁定父仓 gitlink 引用的 B；CI 从 B 的 `artifact.json` 读取 `source_commit` 得到 A，检出 A 构建独立扩展 ZIP，最终发布清单记录 B 已分发插件的真实摘要和运行时 digest，不提交替代插件。
 
-Release 说明自动生成中文，包含版本、来源、插件安装说明及独立扩展安装说明。首次发布汇总初始源码；后续以上一版稳定 Release 清单中的源码提交为基线生成差异说明，选择基线时排除 prerelease。同版本已正式发布时，仅在原发布清单和 tag 仍准确对应原分发 B 后跳过；后续仅更新 README 的分发提交不会使 tag 追平。相同 tag 已被公开 prerelease 占用时拒绝覆盖。新版本先创建 draft，上传扩展 ZIP、`release-manifest.json` 和 `SHA256SUMS` 三个附件，确认完整后再正式发布。
+Release 说明自动生成中文，包含版本、来源、插件安装说明及独立扩展安装说明。首次发布汇总初始源码；后续以上一版稳定 Release 清单中的源码提交为基线生成差异说明，选择基线时排除 prerelease。同版本已正式发布时，仅在原发布清单和 tag 仍准确对应原分发 B 后跳过；后续仅更新 README 的分发提交不会使 tag 追平。相同 tag 已被公开 prerelease 占用时拒绝覆盖。新版本先创建 draft，上传扩展 ZIP、签名 CRX、`release-manifest.json` 和 `SHA256SUMS` 四个附件，确认完整后再正式发布。
 
 发布前提：源码 A 和分发 B 必须可从各自远端获取并合入各自 `main`，ModCDP 必须配置 `CDPHELPER_RELEASE_TOKEN` secret。该 token 仅授权 cdpHelper 仓库的 Contents 读写权限。发布是否成功，以 workflow 结果和对应 Release 页面为准；本地准备或使用 stub 的命令模拟不能证明已正式发布。
 
@@ -153,3 +157,5 @@ cdpHelper plugin 与浏览器扩展均为 **0.2.1**，桥接协议保持 **2**�
 候选宿主验收已通过 Codex 与 Claude Code 的新增诊断工具真实调用。该结果与替换已有用户的全局安装分别记录，不将最终发布产物描述为已重新完成用户级安装验收。
 
 真实雪诺已覆盖两个隔离测试 profile 的明确实例选择与路由、编号/颜色对应、页面停止与恢复，以及用户确认可导入 DevTools 的 Trace。用户确认 logo 生效，并选择保留两个窗口和 profile。测试窗口曾手动恢复，因此不能将本次结果描述为新建隔离实例首次启动的完整验收。此前一次截图超时尚未定位，第二个 profile 的一次点击超时也未计为成功点击。无法核验进程/profile 归属时，守卫仍拒绝操作。
+
+签名私钥由 ModCDP Actions Secret `CDPHELPER_EXTENSION_SIGNING_KEY` 保管，仅独立签名 job 接收；构建测试和发布 job 不接收。密钥缺失或不匹配时停止，不生成替代密钥，不将私钥提交或发布。发布前核对 CRX 签名、ID 和 ZIP/CRX 逐文件一致性，发布清单的 `extension.crx` 记录文件名、SHA-256 和 ID。真实雪诺的安装、升级与登记仍须单独验收。

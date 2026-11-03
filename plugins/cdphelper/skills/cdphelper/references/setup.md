@@ -26,6 +26,10 @@ Claude Code：
 
 ## 扩展单独安装
 
+正式 Release 也提供 `cdphelper-extension-v<版本号>.crx`，通过目标浏览器支持的安装入口安装；CRX 用户后续安装配套版本的新 CRX，下面的目录覆盖步骤仅适用于 ZIP 解压加载。
+
+从 0.2.3 起，CRX 与 ZIP 统一使用固定 ID `heikjbncglkkafkabolnhofdldgajbdo`。原 ID `mdedooklbnfejodmnhmkdpkaedafkehf` 用户须安装新身份并更新配套 plugin，手动填写原服务地址和实例名称，storage 不跨 ID 自动迁移；确认新扩展登记成功后停用旧副本。已有 `heik…` CRX 用户保持同 ID 更新。不要用新密钥重新打包，否则后台会拒绝不同 ID。
+
 从 [cdpHelper Releases](https://github.com/itMrBoy/cdpHelper/releases) 的对应 `v<版本号>` tag 下载 `cdphelper-extension-v<版本号>.zip`，确保扩展与插件版本匹配。用户自行解压到稳定目录。在要控制的雪诺 profile 中打开扩展管理页（通常为 `chrome://extensions`），开启开发者模式，点击“加载已解压的扩展”，选择 **解压结果内含 `manifest.json` 的 `extension/` 子目录**，不要选择 ZIP 根目录。已有扩展更新时，由用户替换 Release 文件并手动重载。
 
 多个普通 profile 可加载同一份扩展文件；身份和连接配置由每个 profile 的扩展 storage 保存。插件不会接收本机扩展目录、下载扩展、从缓存复制扩展或向公共扩展目录写入连接凭据，也没有 `configure_extension` 工具。
